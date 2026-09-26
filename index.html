@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Waste Classifier</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♻️</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Smart Waste Segregation</p>
+  <h1>Drop a photo, get a category</h1>
+  <p class="sub">Runs entirely in your browser — no image is uploaded anywhere.</p>
+
+  <div class="card">
+    <div id="dropzone">
+      <div class="icon">📷</div>
+      <p><span class="cta">Click to upload</span> or drag an image here</p>
+      <p style="font-size:12px;">JPG or PNG</p>
+    </div>
+    <input type="file" id="fileInput" accept="image/*">
+
+    <div id="previewWrap">
+      <img id="previewImg" alt="Uploaded waste item preview">
+    </div>
+
+    <div id="statusLine" class="status" style="display:none;">
+      <span class="spinner"></span><span id="statusText">Loading model…</span>
+    </div>
+
+    <div id="resultCard">
+      <div class="resultHead">
+        <div class="iconSwatch" id="iconSwatch"></div>
+        <span class="badge" id="badge">Category</span>
+      </div>
+      <p class="guidance" id="guidanceText"></p>
+      <details class="detail">
+        <summary>Raw prediction breakdown</summary>
+        <div id="rawPredictions" style="margin-top:10px;"></div>
+      </details>
+      <button class="reset" id="resetBtn">Try another image</button>
+    </div>
+  </div>
+
+  <p class="note">
+    <b>Model:</b> MobileNet (general-purpose vision model), mapped to waste
+    categories via keyword rules in <code>categories.js</code>.
+  </p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
+<script src="categories.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+:root{
+  --bg:#070b14;
+  --card-bg:#0e1420;
+  --card-bg-2:#10182a;
+  --line:#1c2537;
+  --ink:#eef2f8;
+  --muted:#8a95ab;
+  --accent:#22d3ee;
+  --accent-2:#38bdf8;
+  --accent-dark:#0891b2;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  background:var(--bg);
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(34,211,238,0.08), transparent 40%),
+    radial-gradient(circle at 85% 10%, rgba(139,92,246,0.06), transparent 40%);
+  color:var(--ink);
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:48px 20px 60px;
+  scroll-padding-top:env(safe-area-inset-top,0px);
+}
+.wrap{width:100%;max-width:560px;}
+
+.eyebrow{
+  font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent); margin:0 0 10px;
+}
+h1{
+  font-size:clamp(28px,5vw,36px); font-weight:800; letter-spacing:-0.01em;
+  margin:0 0 10px;
+  background:linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.sub{ color:var(--muted); font-size:14.5px; margin:0 0 28px; line-height:1.55; }
+
+.card{
+  background:var(--card-bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 20px 50px -20px rgba(0,0,0,0.5);
+}
+
+#dropzone{
+  border:2px dashed var(--line);
+  border-radius:12px;
+  padding:40px 20px;
+  text-align:center;
+  cursor:pointer;
+  transition:border-color .15s ease, background .15s ease;
+  background:var(--card-bg-2);
+}
+#dropzone.drag{
+  border-color:var(--accent);
+  background:rgba(34,211,238,0.06);
+}
+#dropzone .icon{ font-size:34px; margin-bottom:10px; }
+#dropzone p{ margin:4px 0; color:var(--muted); font-size:14px; }
+#dropzone .cta{ color:var(--accent); font-weight:700; }
+#fileInput{ display:none; }
+
+#previewWrap{ display:none; }
+#previewImg{
+  display:block; max-width:100%; max-height:280px; margin:0 auto 18px;
+  border-radius:10px; border:1px solid var(--line);
+}
+
+.status{
+  text-align:center; color:var(--muted); font-size:14px; margin:14px 0;
+}
+.spinner{
+  display:inline-block; width:14px; height:14px; margin-right:8px;
+  border:2px solid var(--line); border-top-color:var(--accent);
+  border-radius:50%; animation:spin .7s linear infinite; vertical-align:-2px;
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+#resultCard{ display:none; }
+.resultHead{ display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+.iconSwatch{
+  width:52px; height:52px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; flex-shrink:0;
+}
+.badge{
+  font-weight:800; font-size:19px; letter-spacing:-0.01em;
+}
+.guidance{ font-size:15px; color:var(--muted); margin:0 0 18px; line-height:1.55; }
+
+.detail{
+  border-top:1px solid var(--line); padding-top:14px; margin-top:4px;
+}
+.detail summary{
+  cursor:pointer; font-size:13px; color:var(--muted); font-weight:600;
+  list-style:none;
+}
+.detail summary::-webkit-details-marker{ display:none; }
+.detail summary:before{ content:"▸ "; }
+.detail[open] summary:before{ content:"▾ "; }
+
+.rawRow{
+  display:flex; justify-content:space-between; font-size:13px;
+  color:var(--muted); padding:5px 0;
+}
+.rawRow b{ color:var(--ink); font-weight:600; }
+
+.barTrack{
+  height:6px; background:var(--card-bg-2); border-radius:99px; overflow:hidden; margin:3px 0 10px;
+}
+.barFill{ height:100%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius:99px; }
+
+button.reset{
+  display:block; width:100%; margin-top:18px;
+  background:linear-gradient(90deg, var(--accent), var(--accent-2));
+  color:#04141a; border:none;
+  padding:12px; border-radius:10px; font-size:14.5px; font-weight:700;
+  cursor:pointer;
+}
+button.reset:hover{ filter:brightness(1.08); }
+
+.note{
+  margin-top:22px; font-size:12.5px; color:var(--muted); line-height:1.6;
+  border-top:1px solid var(--line); padding-top:16px;
+}
+.note code{
+  background:var(--card-bg-2); padding:1px 5px; border-radius:4px; font-size:11.5px;
+  color:var(--accent-2);
+}
