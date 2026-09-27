@@ -5,53 +5,121 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Waste Classifier</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♻️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="wrap">
-  <p class="eyebrow">Smart Waste Segregation</p>
-  <h1>Drop a photo, get a category</h1>
-  <p class="sub">Runs entirely in your browser — no image is uploaded anywhere.</p>
 
-  <div class="card">
-    <div id="dropzone">
-      <div class="icon">📷</div>
-      <p><span class="cta">Click to upload</span> or drag an image here</p>
-      <p style="font-size:12px;">JPG or PNG</p>
-    </div>
-    <input type="file" id="fileInput" accept="image/*">
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="wordmark">&#9851; Waste Classifier</span>
+    <a href="#tool" class="nav-cta">Try it</a>
+  </div>
+</nav>
 
-    <div id="previewWrap">
-      <img id="previewImg" alt="Uploaded waste item preview">
-    </div>
+<header class="hero">
+  <svg class="hero-blob" viewBox="0 0 600 600" aria-hidden="true">
+    <path fill="currentColor" d="M421,320Q400,390,335,430Q270,470,205,435Q140,400,105,335Q70,270,105,205Q140,140,205,105Q270,70,335,105Q400,140,415,205Q430,270,421,320Z" />
+  </svg>
+  <div class="hero-inner">
+    <p class="eyebrow">Smart Waste Segregation</p>
+    <h1>Know what bin<br>it belongs in.</h1>
+    <p class="hero-sub">Drop a photo of any item and get its category and disposal
+      guidance instantly &mdash; classified entirely on your device, nothing uploaded.</p>
+    <a href="#tool" class="btn-primary">Try the classifier &darr;</a>
+  </div>
+</header>
 
-    <div id="statusLine" class="status" style="display:none;">
-      <span class="spinner"></span><span id="statusText">Loading model…</span>
-    </div>
-
-    <div id="resultCard">
-      <div class="resultHead">
-        <div class="iconSwatch" id="iconSwatch"></div>
-        <span class="badge" id="badge">Category</span>
+<section class="steps">
+  <div class="section-inner">
+    <p class="eyebrow center">How it works</p>
+    <h2 class="center">Three steps, no guesswork</h2>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Upload a photo</h3>
+        <p>Drag an image in, or snap one on your phone.</p>
       </div>
-      <p class="guidance" id="guidanceText"></p>
-      <details class="detail">
-        <summary>Raw prediction breakdown</summary>
-        <div id="rawPredictions" style="margin-top:10px;"></div>
-      </details>
-      <button class="reset" id="resetBtn">Try another image</button>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>On-device AI looks</h3>
+        <p>A vision model classifies it right in your browser.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Get the right bin</h3>
+        <p>Category, confidence, and disposal guidance, instantly.</p>
+      </div>
     </div>
   </div>
+</section>
 
-  <p class="note">
-    <b>Model:</b> MobileNet (general-purpose vision model), mapped to waste
-    categories via keyword rules
-  </p>
-</div>
+<section class="tool-section" id="tool">
+  <div class="section-inner narrow">
+    <p class="eyebrow center">Try it now</p>
+    <h2 class="center">Drop a photo below</h2>
+
+    <div class="card">
+      <div id="dropzone">
+        <div class="icon">&#128247;</div>
+        <p><span class="cta">Click to upload</span> or drag an image here</p>
+        <p style="font-size:12px;">JPG or PNG</p>
+      </div>
+      <input type="file" id="fileInput" accept="image/*">
+
+      <div id="previewWrap">
+        <img id="previewImg" alt="Uploaded waste item preview">
+      </div>
+
+      <div id="statusLine" class="status" style="display:none;">
+        <span class="spinner"></span><span id="statusText">Loading model&hellip;</span>
+      </div>
+
+      <div id="resultCard">
+        <div class="resultHead">
+          <div class="iconSwatch" id="iconSwatch"></div>
+          <span class="badge" id="badge">Category</span>
+        </div>
+        <p class="guidance" id="guidanceText"></p>
+        <details class="detail">
+          <summary>Raw prediction breakdown</summary>
+          <div id="rawPredictions" style="margin-top:10px;"></div>
+        </details>
+        <button class="reset" id="resetBtn">Try another image</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="categories">
+  <div class="section-inner">
+    <p class="eyebrow center light">What it recognizes</p>
+    <h2 class="center light">Seven categories</h2>
+    <div class="chip-row" id="categoryShowcase"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>Runs entirely in your browser. No image ever leaves your device.</p>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
 <script src="categories.js"></script>
 <script src="app.js"></script>
+<script>
+  (function () {
+    const row = document.getElementById('categoryShowcase');
+    Object.values(CATEGORY_INFO).forEach((info) => {
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.style.setProperty('--chip-color', info.color);
+      chip.innerHTML = '<span class="chip-icon">' + info.icon + '</span>' + info.label;
+      row.appendChild(chip);
+    });
+  })();
+</script>
 </body>
 </html>
